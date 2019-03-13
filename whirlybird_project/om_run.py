@@ -21,11 +21,12 @@ def add_eq(eq_name, var_string, eq_string):
 equations_group = Group()
 
 # Wing geometry
+
+## span
 add_var('b')
 add_eq('eq_b', 'Con_b', 'b - .5')# b constraint, b is assigned
 
 add_var('AR', val=8)
-
 add_eq('eq_AR','Con_AR','AR - b**2/S') # aspect ratio constraint
 
 add_var('S')
@@ -36,37 +37,46 @@ add_eq('eq_S','Con_S', 'S - b*c') # reference wing area
 add_var('x',dv=True, lower=0.) # proposed dummy variable
 # Aerodynamics
 add_var('V', val=23., dv=True, lower=0., upper = 30.) # air speed 
+add_eq('eq_V', 'Con_V','V - 23.' )
+
 add_var('rho', val = 1.225)
+add_eq('eq_rho','Con_rho', 'rho- 1.225')
+
 add_var('CL', val=0.5 )
+add_eq('eq_CL', 'Con_CL', 'CL - 0.5')
 
 add_var('CD')
+add_eq('eq_CD', 'Con_CD','CD - CL/LD')
+
 
 add_var('LD', val=12.)
 add_eq('eq_LD','Con_LD', 'LD - L/D') # lift to drag ratio
 
 add_var('q', dv=False)  #dynamic pressure
 add_eq('eq_q', 'Con_q', 'q - 0.5 * rho * V**2') #constraints where we set q - q1 = 0 to be satisfied
-# Cruise forces
 
-'''' Thrust, T''''
+
+# Cruise forces
+# '''' Thrust,T''''
+
 add_var('T')
 add_eq('eq_T', 'Con_T', 'T - D') # Thrust required for steady-leveled flight
 
-''''Lift, L''''
+# ''''Lift, L''''
 add_var('L')
 add_eq('eq_L', 'Con_L', 'L - CL * q * S') # Lift constraint
 
-'''' Drag, D''''
+# '''' Drag, D''''
 add_var('D') # drag
 add_eq('eq_D', 'Con_D', 'D - CD *q*S') # Drag
 
-'''' Weight, W ''''
+# '''' Weight, W ''''
 add_var('W',val=-6.8*9.81, dv=True) # weight in kg
 add_eq('eq_W', 'Con_W', 'W - L')
 
 
-add_var('TW') #thrust to weigth ratio
-add_var('WS') # wing loading 
+# add_var('TW') #thrust to weigth ratio
+# add_var('WS') # wing loading 
 
 # Rotor
 add_var('diam') #diameter
@@ -102,5 +112,5 @@ prob.run_model()
 
 prob.run_driver()
 
-print(prob.model.list_outputs())
+prob.model.list_outputs()
 # print(prob.list_problem_vars())

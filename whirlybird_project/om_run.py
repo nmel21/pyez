@@ -34,12 +34,16 @@ add_eq('eq_S','Con_S', 'S - b*c') # reference wing area
 
 # add_var('c_tip', val = 0.05, dv =False) # tip chord
 # add_var('c_root', val = 0.1,dv=False) # root chord
+
+add_var('c')
+ass_
+
 add_var('x',dv=True, lower=0.) # proposed dummy variable
 # Aerodynamics
 add_var('V', val=23., dv=True, lower=0., upper = 30.) # air speed 
 add_eq('eq_V', 'Con_V','V - 23.' )
 
-add_var('rho', val = 1.225)
+add_var('rho')
 add_eq('eq_rho','Con_rho', 'rho- 1.225')
 
 add_var('CL', val=0.5 )

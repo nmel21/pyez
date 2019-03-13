@@ -26,7 +26,7 @@ equations_group = Group()
 add_var('b')
 add_eq('eq_b', 'Con_b', 'b - .5')# b constraint, b is assigned
 
-add_var('AR', val=8)
+add_var('AR')
 add_eq('eq_AR','Con_AR','AR - b**2/S') # aspect ratio constraint
 
 add_var('S')
@@ -53,10 +53,10 @@ add_var('CD')
 add_eq('eq_CD', 'Con_CD','CD - CL/LD')
 
 
-add_var('LD', val=12.)
+add_var('LD')
 add_eq('eq_LD','Con_LD', 'LD - L/D') # lift to drag ratio
 
-add_var('q', dv=False)  #dynamic pressure
+add_var('q')  #dynamic pressure
 add_eq('eq_q', 'Con_q', 'q - 0.5 * rho * V**2') #constraints where we set q - q1 = 0 to be satisfied
 
 
@@ -75,7 +75,7 @@ add_var('D') # drag
 add_eq('eq_D', 'Con_D', 'D - CD *q*S') # Drag
 
 # '''' Weight, W ''''
-add_var('W',dv=True) # weight in kg
+add_var('W') # weight in kg
 add_eq('eq_W', 'Con_W', 'W - L')
 
 

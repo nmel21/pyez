@@ -40,13 +40,13 @@ add_eq('eq_c', 'Con_c', 'c - 0.2')
 
 add_var('x',dv=True, lower=0.) # proposed dummy variable
 # Aerodynamics
-add_var('V', val=23., dv=True, lower=0., upper = 30.) # air speed 
+add_var('V') # air speed 
 add_eq('eq_V', 'Con_V','V - 23.' )
 
 add_var('rho')
 add_eq('eq_rho','Con_rho', 'rho- 1.225')
 
-add_var('CL', val=0.5 )
+add_var('CL')
 add_eq('eq_CL', 'Con_CL', 'CL - 0.5')
 
 add_var('CD')
@@ -75,7 +75,7 @@ add_var('D') # drag
 add_eq('eq_D', 'Con_D', 'D - CD *q*S') # Drag
 
 # '''' Weight, W ''''
-add_var('W',val=-6.8*9.81, dv=True) # weight in kg
+add_var('W',dv=True) # weight in kg
 add_eq('eq_W', 'Con_W', 'W - L')
 
 

@@ -25,23 +25,42 @@ add_var('b')
 add_eq('eq_b', 'Con_b', 'b - .5')# b constraint, b is assigned
 
 add_var('AR', val=8)
+
+add_eq('eq_AR','Con_AR','AR - b**2/S') # aspect ratio constraint
+
 add_var('S')
-add_var('c_tip', val = 0.05, dv =False) # tip chord
-add_var('c_root', val = 0.1,dv=False) # root chord
+add_eq('eq_S','Con_S', 'S - b*c') # reference wing area
+
+# add_var('c_tip', val = 0.05, dv =False) # tip chord
+# add_var('c_root', val = 0.1,dv=False) # root chord
 add_var('x',dv=True, lower=0.) # proposed dummy variable
 # Aerodynamics
 add_var('V', val=23., dv=True, lower=0., upper = 30.) # air speed 
-add_var('rho', val = 1.223)
+add_var('rho', val = 1.225)
 add_var('CL', val=0.5 )
-add_var('CD')
-add_var('LD', val=12.)
-#add_var('Ae') # aerodynamic efficiency
-add_var('q', dv=False)  #dynamic pressure
 
+add_var('CD')
+
+add_var('LD', val=12.)
+add_eq('eq_LD','Con_LD', 'LD - L/D') # lift to drag ratio
+
+add_var('q', dv=False)  #dynamic pressure
+add_eq('eq_q', 'Con_q', 'q - 0.5 * rho * V**2') #constraints where we set q - q1 = 0 to be satisfied
 # Cruise forces
-add_var('T') # thrust
-add_var('L') # lift
+
+'''' Thrust, T''''
+add_var('T')
+add_eq('eq_T', 'Con_T', 'T - D') # Thrust required for steady-leveled flight
+
+''''Lift, L''''
+add_var('L')
+add_eq('eq_L', 'Con_L', 'L - CL * q * S') # Lift constraint
+
+'''' Drag, D''''
 add_var('D') # drag
+add_eq('eq_D', 'Con_D', 'D - CD *q*S') # Drag
+
+'''' Weight, W ''''
 add_var('W',val=-6.8*9.81, dv=True) # weight in kg
 add_eq('eq_W', 'Con_W', 'W - L')
 
@@ -62,22 +81,6 @@ add_var('cr_Q') # cruise Torque?
 add_var('hv_Q') # hover Torque?
 
 
-
-add_eq('eq_S','Con_S', 'S - b*c') # reference wing area
-add_eq('eq_AR','Con_AR','AR - b**2/S') # aspect ratio constraint
-
-add_eq('eq_q', 'Con_q', 'q - 0.5 * rho * V**2') #constraints where we set q - q1 = 0 to be satisfied
-add_eq('eq_L', 'Con_L', 'L - CL * q * S') # Lift
-add_eq('eq_D', 'Con_D', 'D - CD *q*S') # Drag
-add_eq('eq_LD','Con_LD', 'LD - L/D') # lift to drag ratio
-
-#add_eq('eq_Wcal','Con_Wcal','Wcal - 9.81*20*S') 
-
-add_eq('eq_W', 'Con_W', 'W - L')
-add_eq('eq_T', 'Con_T', 'T - D') # Thrust required for steady-leveled flight
-
-#add_eq('eq_Ae', 'Con_Ae', 'Ae - CL/CD') # Aerodynamic efficiency
-# add_eq('eq_TW','Con_TW','TW - 1/(CL/CD)') # thrust to weight ratio
 
 
 

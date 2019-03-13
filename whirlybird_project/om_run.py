@@ -36,7 +36,7 @@ add_eq('eq_S','Con_S', 'S - b*c') # reference wing area
 # add_var('c_root', val = 0.1,dv=False) # root chord
 
 add_var('c')
-ass_
+add_eq('eq_c', 'Con_c', 'c - 0.2')
 
 add_var('x',dv=True, lower=0.) # proposed dummy variable
 # Aerodynamics

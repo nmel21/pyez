@@ -50,7 +50,7 @@ add_var('CL')
 add_eq('eq_CL', 'Con_CL', 'CL - 0.5')
 
 add_var('CD')
-add_eq('eq_CD', 'Con_CD','CD - CL/LD')
+add_eq('eq_CD', 'Con_CD','CD - 0.005 + 0.0359*CL**2')
 
 
 add_var('LD')
@@ -72,7 +72,8 @@ add_eq('eq_L', 'Con_L', 'L - CL * q * S') # Lift constraint
 
 # '''' Drag, D''''
 add_var('D') # drag
-add_eq('eq_D', 'Con_D', 'D - CD *q*S') # Drag
+add_eq('eq_D', 'Con_D', 'D - CD *q*S') 
+
 
 # '''' Weight, W ''''
 add_var('W') # weight in kg

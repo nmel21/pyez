@@ -24,13 +24,13 @@ equations_group = Group()
 
 ## span
 add_var('b')
-add_eq('eq_b', 'Con_b', 'b - .5')# b constraint, b is assigned
+add_eq('eq_b', 'Con_b', 'b - 1.0')# b constraint, b is assigned
 
 add_var('AR')
 add_eq('eq_AR','Con_AR','AR - b**2/S') # aspect ratio constraint
 
 add_var('S')
-add_eq('eq_S','Con_S', 'S - b*c') # reference wing area
+add_eq('eq_S','Con_S', 'S - (b)*(0.2)') # reference wing area
 
 # add_var('c_tip', val = 0.05, dv =False) # tip chord
 # add_var('c_root', val = 0.1,dv=False) # root chord
@@ -50,7 +50,7 @@ add_var('CL')
 add_eq('eq_CL', 'Con_CL', 'CL - 0.5')
 
 add_var('CD')
-add_eq('eq_CD', 'Con_CD','CD - 0.005 + 0.0359*CL**2')
+add_eq('eq_CD', 'Con_CD','CD - (0.005 + 0.0359*CL**2)') # 
 
 
 add_var('LD')
@@ -61,21 +61,21 @@ add_eq('eq_q', 'Con_q', 'q - 0.5 * rho * V**2') #constraints where we set q - q1
 
 
 # Cruise forces
-# '''' Thrust,T''''
+# Thrust,T
 
 add_var('T')
 add_eq('eq_T', 'Con_T', 'T - D') # Thrust required for steady-leveled flight
 
-# ''''Lift, L''''
+# Lift, L
 add_var('L')
 add_eq('eq_L', 'Con_L', 'L - CL * q * S') # Lift constraint
 
-# '''' Drag, D''''
+# Drag, D
 add_var('D') # drag
 add_eq('eq_D', 'Con_D', 'D - CD *q*S') 
 
 
-# '''' Weight, W ''''
+# Weight, W 
 add_var('W') # weight in kg
 add_eq('eq_W', 'Con_W', 'W - L')
 
@@ -85,8 +85,14 @@ add_eq('eq_W', 'Con_W', 'W - L')
 
 # Rotor
 add_var('diam') #diameter
+add_eq('eq_diam','Con_diam', 'diam - b')
+
 add_var('cr_V') # cruise velocity
+add_eq('eq_cr_V','Con_cr_V', 'cr_V -V')
+
 add_var('cr_RPM') #cruise RMP
+# add_eq('')
+
 add_var('hv_RPM') # hover RMP
 add_var('cr_P') # cruise power
 add_var('hv_P') # hover power

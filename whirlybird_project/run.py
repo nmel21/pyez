@@ -4,7 +4,8 @@ import numpy as np
 
 CL = 0.5
 rho = 1.225
-b = 2
+# b = 2
+b = 1
 AR = 12
 LD = 12
 V = 23.

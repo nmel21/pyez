@@ -22,7 +22,6 @@ equations_group = Group()
 
 # Wing geometry
 
-## span
 add_var('b')
 add_eq('eq_b', 'Con_b', 'b - 1.0')# b constraint, b is assigned
 
@@ -39,8 +38,10 @@ add_var('c')
 add_eq('eq_c', 'Con_c', 'c - 0.2')
 
 add_var('x',dv=True, lower=0.) # proposed dummy variable
+
+
 # Aerodynamics
-add_var('V') # air speed 
+add_var('V') # air speed, free stream
 add_eq('eq_V', 'Con_V','V - 23.' )
 
 add_var('rho')
@@ -61,7 +62,6 @@ add_eq('eq_q', 'Con_q', 'q - 0.5 * rho * V**2') #constraints where we set q - q1
 
 
 # Cruise forces
-# Thrust,T
 
 add_var('T')
 add_eq('eq_T', 'Con_T', 'T - D') # Thrust required for steady-leveled flight

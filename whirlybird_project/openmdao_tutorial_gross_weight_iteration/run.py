@@ -2,6 +2,8 @@ from openmdao.api import Problem, Group, IndepVarComp, NonlinearBlockGS
 
 from empty_weight_fraction_comp import EmptyWeightFractionComp
 from gross_weight_comp import GrossWeightComp
+from battery_range_comp import BatteryRangeComp
+
 
 
 prob = Problem()
@@ -9,7 +11,7 @@ prob = Problem()
 group = Group()
 
 comp = IndepVarComp()
-comp.add_output('Wp', val=0.)
+comp.add_output('Wp', val=5.)
 comp.add_output('Wc', val=0.)
 group.add_subsystem('ivc', comp)
 
@@ -18,6 +20,9 @@ group.add_subsystem('ewf', comp)
 
 comp = GrossWeightComp()
 group.add_subsystem('gw', comp)
+
+comp = BatteryRangeComp() # 'electric battery range'
+group.add_subsystem('r', comp)
 
 group.connect('ivc.Wp', 'gw.Wp')
 group.connect('ivc.Wc', 'gw.Wc')
@@ -31,6 +36,7 @@ prob.setup()
 prob.run_model()
 print(prob['gw.W0'])
 print(prob['gw.We/W0'])
+print(prob['r.R'])
 prob.check_partials(compact_print=True)
 
 # TO RUN: 'python run.py'

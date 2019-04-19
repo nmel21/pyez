@@ -4,7 +4,7 @@ L_D = 13.*1.5 # General aviation L/D ratio with a 50 percent incrase in L/D
 eta = 0.7
 E_mb = 451721.739 # 'energy density of the battery in joules per mass'
 # R = eta*(E/mb)*(L/D)*(mb/W0) 'electric aircaft range equation'
-# (mb/W0) does depend on the W0 iterations
+# (mb/W0) does depend on the W0 iteration,  we will include the iterated W0 in our Range model. 
 
 class BatteryRangeComp(ExplicitComponent):
     def setup(self):

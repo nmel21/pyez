@@ -7,7 +7,7 @@ C = -0.1
 class EmptyWeightFractionComp(ExplicitComponent):
 
     def setup(self):
-        self.add_input('W0', val=2000)
+        self.add_input('W0', val=100.0)
         self.add_output('We/W0', val=0.5)
         self.declare_partials('We/W0', 'W0')
 

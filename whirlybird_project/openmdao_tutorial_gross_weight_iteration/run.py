@@ -11,8 +11,9 @@ prob = Problem()
 group = Group()
 
 comp = IndepVarComp()
-comp.add_output('Wp', val=5.)
-comp.add_output('Wc', val=0.)
+comp.add_output('Wp', val=22.0) # weight is in Newtons
+comp.add_output('Wc', val=0.) # Crew weight, none
+comp.add_output('mb', val = 1.15) # mass of the battery
 group.add_subsystem('ivc', comp)
 
 comp = EmptyWeightFractionComp()
@@ -27,9 +28,12 @@ group.add_subsystem('r', comp)
 group.connect('ivc.Wp', 'gw.Wp')
 group.connect('ivc.Wc', 'gw.Wc')
 group.connect('gw.W0', 'ewf.W0')
-group.connect('ewf.We/W0', 'gw.We/W0')
 
-group.nonlinear_solver = NonlinearBlockGS(iprint=2, maxiter=20)
+group.connect('ewf.We/W0', 'gw.We/W0')
+group.connect('gw.W0', 'r.W0')
+group.connect('ivc.mb', 'r.mb')
+
+group.nonlinear_solver = NonlinearBlockGS(iprint=2, maxiter=100)
 
 prob.model = group
 prob.setup()

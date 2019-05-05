@@ -104,11 +104,9 @@ if __name__ == '__main__':
     )
     interp.set_training_values(xt, yt)
     interp.train()
-
+# angle of attack of the blade , pitch angle
     x = np.array([
-        [-3., 5.],
-        [-2., 10.],
-        [-1., 15.],
+        [-3., 4.99],
     ])
     y = interp.predict_values(x)
     print('C_T:', y[:, 0])

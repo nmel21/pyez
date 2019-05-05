@@ -1,15 +1,16 @@
 from openmdao.api import Problem, IndepVarComp, ExecComp, Group
 from openmdao.api import ScipyOptimizeDriver
 
-
+# indep_var_comp = IndepVarComp()
 def add_var(var_name, val=1., dv=True, lower=None, upper=None):
-    indep_var_comp.add_output(var_name, val=val)
+    IndepVarComp.add_output(var_name, val=val)
     if dv:
-        indep_var_comp.add_design_var(var_name, lower=lower, upper=upper)
+        IndepVarComp.add_design_var(var_name, lower=lower, upper=upper)
 
 indep_var_comp = IndepVarComp()
 
 # Equations
+# equations_group = Group()
 def add_eq(eq_name, var_string, eq_string):
     equations_group.add_subsystem(
         eq_name, ExecComp(

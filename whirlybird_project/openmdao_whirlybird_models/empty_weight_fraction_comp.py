@@ -1,13 +1,12 @@
 from openmdao.api import ExplicitComponent
 
-
-A = 1.51
-C = -0.1
+A = .86
+C = -0.06
 
 class EmptyWeightFractionComp(ExplicitComponent):
 
     def setup(self):
-        self.add_input('W0', val=100.0)
+        self.add_input('W0', val=5.00)
         self.add_output('We/W0', val=0.5)
         self.declare_partials('We/W0', 'W0')
 

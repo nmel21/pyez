@@ -7,8 +7,6 @@ from power_loading_comp import PowerLoadingComp
 from wing_loading_comp import WingLoadingComp
 
 
-
-
 prob = Problem()
 
 group = Group()
@@ -17,8 +15,8 @@ comp = IndepVarComp()
 comp.add_output('Wp', val=2.26) # weight is in Newtons
 comp.add_output('Wc', val=0.) # Crew weight, none
 comp.add_output('mb', val = 0.48) # mass of the battery
-comp.add_output('V_max', val= 23.0)
-comp.add_output('W_S', val = 30) # wing loading
+comp.add_output('V_max', val= 28.7)
+comp.add_output('W_S', val = 16.0) # wing loading 16 kg/m**2 
 group.add_subsystem('ivc', comp)
 
 comp = EmptyWeightFractionComp()

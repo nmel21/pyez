@@ -3,9 +3,9 @@ from openmdao.api import ScipyOptimizeDriver
 
 # indep_var_comp = IndepVarComp()
 def add_var(var_name, val=1., dv=True, lower=None, upper=None):
-    IndepVarComp.add_output(var_name, val=val)
+    indep_var_comp.add_output(var_name, val=val)
     if dv:
-        IndepVarComp.add_design_var(var_name, lower=lower, upper=upper)
+        indep_var_comp.add_design_var(var_name, lower=lower, upper=upper)
 
 indep_var_comp = IndepVarComp()
 
@@ -52,7 +52,7 @@ add_var('CL')
 add_eq('eq_CL', 'Con_CL', 'CL - 0.5')
 
 add_var('CD')
-add_eq('eq_CD', 'Con_CD','CD - (0.005 + 0.0359*CL**2)') # 
+add_eq('eq_CD', 'Con_CD','CD - (0.005 + 0.0359*CL**2)') # coefficinets are from airfoil tools 
 
 
 add_var('LD')
@@ -101,9 +101,6 @@ add_var('cr_T') # cruise Thrust
 add_var('hv_T') # hover Thrust
 add_var('cr_Q') # cruise Torque?
 add_var('hv_Q') # hover Torque?
-
-
-
 
 
 group = Group()

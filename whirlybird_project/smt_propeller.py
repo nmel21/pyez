@@ -5,7 +5,6 @@ import matplotlib.pyplot as plt
 
 from smt.surrogate_models import RMTB, RMTC, IDW
 
-
 scaling = [
     1,
     1,
@@ -106,7 +105,8 @@ if __name__ == '__main__':
     interp.train()
 # angle of attack of the blade , pitch angle
     x = np.array([
-        [-3., 4.99],
+        # 3., 14.28
+        [-3., 2],
     ])
     y = interp.predict_values(x)
     print('C_T:', y[:, 0])

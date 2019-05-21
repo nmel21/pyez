@@ -27,3 +27,24 @@ x = np.arange(10)
 x
 
 x[:5]
+
+
+S = 0.3
+b = 2.0
+
+AR = b**2 / S
+
+print('Aspect Ratio:',AR)
+
+def AspectRatio(span, surfArea): 
+    c = span**2 / surfArea
+    return print('Aspect Ratio is:',c)
+
+AspectRatio(2.5, 0.3)
+
+def fun(x):
+    a = 10.0
+    return print('function evaluation is ',a * x **2)
+
+fun(3.0)
+# def PreCurser()

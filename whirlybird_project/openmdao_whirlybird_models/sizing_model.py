@@ -7,6 +7,7 @@ from power_loading_comp import PowerLoadingComp
 from wing_loading_comp import WingLoadingComp
 from wing_span_comp import WingSpanComp
 from root_chord_comp import RootChordComp
+from empty_weight_only_comp import EmptyWeightOnlyComp
 from stat_marg.lift_curve_slope_inf import LiftCurveInf
 from stat_marg.lift_curve_slope_comp import LiftCurveComp
 from stat_marg.compon_xcg import ComponXcg
@@ -17,6 +18,8 @@ from stat_marg.nuetral_point import NuetralPoint # it is the neutral point
 from stat_marg.mean_aero_chord import MeanAeroChord
 from stat_marg.coeff_moment_alpha import CoeffMomentAlpha
 from stat_marg.stat_marg import StatMarg 
+from cer_combine_comp import CerGroup
+
 prob = Problem()
 
 group = Group()
@@ -45,6 +48,8 @@ comp.add_output('Xcg_spar', val = 0.4120)
 comp.add_output('W_body', val = .35)
 comp.add_output('Xcg_body', val = 0.4151)
 comp.add_output('Xcg_payload', val = 0.251)
+
+
 
 # ' this next one is for a small vehicle'
 # comp.add_output('W_motor', val = 0.6)
@@ -179,6 +184,12 @@ group.add_subsystem('lfc_inf', comp)
 
 group.connect('ivc.sweep','lfc_inf.sweep')
 
+comp = EmptyWeightOnlyComp()
+group.add_subsystem('ew_only', comp)
+
+group.connect('ewf.We/W0','ew_only.We/W0')
+group.connect('gw.W0','ew_only.W0')
+
 
 comp = LiftCurveComp()
 group.add_subsystem('lcs',comp)
@@ -187,7 +198,11 @@ group.connect('ws.b','lcs.b')
 group.connect('s.S','lcs.S')
 group.connect('lfc_inf.Cl_alpha_inf','lcs.Cl_alpha_inf')
 
+# Cost model
+comp = CerGroup()
+group.add_subsystem('cer_g',comp)
 
+group.connect('ew_only.We','cer_g.We')
 
 
 group.connect('ivc.Wp', 'gw.Wp')

@@ -15,10 +15,11 @@ group = Group()
 
 # Adding all of the Explicit components to the main group
 comp = IndepVarComp()
-comp.add_output('We', val=4.)
-comp.add_output('V', val=83.)
+comp.add_output('We', val=4.) # mass kg
+comp.add_output('V', val=83.) # km/hr
 comp.add_output('Q', val=500.)
 comp.add_output('FTA', val=2.)
+# engineering rates from Raymer's text
 comp.add_output('Re', val=86.0*1.530)
 comp.add_output('Rt', val=88.0*1.530)
 comp.add_output('Rq', val=81.0*1.530)

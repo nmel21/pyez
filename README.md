@@ -1,1 +1,0 @@
-# whirlybird_project

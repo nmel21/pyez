@@ -8,22 +8,24 @@ from cer_model.devel_support_comp import DevelSupportComp
 from cer_model.flight_test_cost_comp import FlightTestCostComp
 from cer_model.mfg_material_cost_comp import MfgMaterialCostComp
 from cer_model.rdte_fly_cost_comp import RdteFlyCostComp
+from cer_model.price_per_unit_comp import PricePerUnitComp
 # from cer_model.cer_run import 
+
 class CerGroup(Group):
     def setup(self):
         comp = IndepVarComp()
         # comp.add_output('We') # mass kg but will use output We from main code
         comp.add_output('V', val=83.) # km/hr
-        comp.add_output('Q', val=500.)
+        comp.add_output('Q', val=2000.)
         comp.add_output('FTA', val=2.)
         # engineering rates from Raymer's text
         comp.add_output('Re', val=86.0*1.530)
         comp.add_output('Rt', val=88.0*1.530)
-        comp.add_output('Rq', val=81.0*1.530)
-        comp.add_output('Rm', val=73.0*1.530)
+        comp.add_output('Rq', val=12.0*1.530)
+        comp.add_output('Rm', val=8.0*1.530)
         comp.add_output('Ceng', val=19.99)
         comp.add_output('Neng', val=2.0)
-        comp.add_output('Cav', val=113.08)
+        comp.add_output('Cav', val=95.37)
 
         self.add_subsystem('i_comp', comp, promotes=['*'])
 
@@ -35,3 +37,4 @@ class CerGroup(Group):
         self.add_subsystem('ftc', FlightTestCostComp(), promotes=['*'])
         self.add_subsystem('mfg_mcc', MfgMaterialCostComp(), promotes=['*'])
         self.add_subsystem('rfc', RdteFlyCostComp(), promotes=['*'])
+        self.add_subsystem('ppuc', PricePerUnitComp(), promotes=['*'])

@@ -19,6 +19,9 @@ from stat_marg.coeff_moment_alpha import CoeffMomentAlpha
 from stat_marg.stat_marg import StatMarg 
 from empty_weight_only_comp import EmptyWeightOnlyComp
 from cer_combine_comp import CerGroup
+
+from drag_combine_comp import DragGroup
+
 prob = Problem()
 
 group = Group()
@@ -33,8 +36,18 @@ comp.add_output('lamda', val = 0.4) # this is the taper ratio
 comp.add_output('AR', val = 6.998) # this is the taper ratio
 comp.add_output('sweep', val = 30.0) # sweep from the LE
 
+# comp.add_output('Wp', val=2.26) # weight is in Newtons
+# comp.add_output('Wc', val=0.) # Crew weight, none
+# comp.add_output('mb', val = 0.48) # mass of the battery
+# comp.add_output('V_max', val= 28.7)
+# comp.add_output('W_S', val = 16.0) # wing loading 16 kg/m**2 
+# comp.add_output('lamda', val = 0.4) # this is the taper ratio
+# comp.add_output('AR', val = 6.998) # this is the taper ratio
+# comp.add_output('sweep', val = 30.0) # sweep from the LE
+
+
 # this is for the full sized vehicle and the optimized version
-comp.add_output('W_motor', val = 0.6)
+comp.add_output('W_motor', val = 0.06)
 comp.add_output('Xcg_motor', val = .4878)
 comp.add_output('W_prop', val =0.006)
 comp.add_output('Xcg_prop', val= .4878)
@@ -196,6 +209,7 @@ group.add_subsystem('ew_only', comp)
 group.connect('ewf.We/W0','ew_only.We/W0')
 group.connect('gw.W0','ew_only.W0')
 
+
 # Cost Model
 comp = CerGroup()
 group.add_subsystem('cer_g', comp)
@@ -228,7 +242,20 @@ group.connect('ws.b','rc.b')
 group.connect('s.S','rc.S')
 
 
-# group.connect('r.mb/W0','gw.mb/W0')
+
+# Drag model
+
+comp = DragGroup()
+group.add_subsystem('drag_g', comp)
+
+group.connect('ivc.sweep','drag_g.sweep')
+group.connect('s.S','drag_g.S')
+group.connect('ws.b','drag_g.b') # connects wing span output b to drag group's b
+# group.connect('ivc.V_max','drag_g.V')
+group.connect('mac.C_bar', 'drag_g.C_bar')
+
+
+
 group.nonlinear_solver = NonlinearBlockGS(iprint=2, maxiter=20)
 
 prob.model = group
@@ -236,7 +263,6 @@ prob.setup()
 prob.run_model()
 
 prob.model.list_outputs()
-
 
 # print(prob['gw.W0'])
 # print(prob['gw.We/W0'])

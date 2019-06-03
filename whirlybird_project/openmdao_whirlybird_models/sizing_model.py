@@ -17,6 +17,8 @@ from stat_marg.nuetral_point import NuetralPoint # it is the neutral point
 from stat_marg.mean_aero_chord import MeanAeroChord
 from stat_marg.coeff_moment_alpha import CoeffMomentAlpha
 from stat_marg.stat_marg import StatMarg 
+from empty_weight_only_comp import EmptyWeightOnlyComp
+from cer_combine_comp import CerGroup
 prob = Problem()
 
 group = Group()
@@ -187,6 +189,18 @@ group.connect('ws.b','lcs.b')
 group.connect('s.S','lcs.S')
 group.connect('lfc_inf.Cl_alpha_inf','lcs.Cl_alpha_inf')
 
+# Empty Weight Comp for use in the cost model
+comp = EmptyWeightOnlyComp()
+group.add_subsystem('ew_only', comp)
+
+group.connect('ewf.We/W0','ew_only.We/W0')
+group.connect('gw.W0','ew_only.W0')
+
+# Cost Model
+comp = CerGroup()
+group.add_subsystem('cer_g', comp)
+
+group.connect('ew_only.We','cer_g.We')
 
 
 

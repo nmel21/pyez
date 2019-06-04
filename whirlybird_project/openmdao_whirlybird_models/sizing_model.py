@@ -1,5 +1,5 @@
-from openmdao.api import Problem, Group, IndepVarComp, NonlinearBlockGS
-
+from openmdao.api import Problem, Group, IndepVarComp, NonlinearBlockGS, LinearBlockGS, ExecComp, ScipyOptimizeDriver
+import numpy as np
 from empty_weight_fraction_comp import EmptyWeightFractionComp
 from gross_weight_comp import GrossWeightComp
 from battery_range_comp import BatteryRangeComp
@@ -27,15 +27,6 @@ prob = Problem()
 group = Group()
 
 comp = IndepVarComp()
-comp.add_output('Wp', val=2.26) # weight is in Newtons
-comp.add_output('Wc', val=0.) # Crew weight, none
-comp.add_output('mb', val = 0.48) # mass of the battery
-comp.add_output('V_max', val= 28.7)
-comp.add_output('W_S', val = 16.0) # wing loading 16 kg/m**2 
-comp.add_output('lamda', val = 0.4) # this is the taper ratio
-comp.add_output('AR', val = 6.998) # this is the taper ratio
-comp.add_output('sweep', val = 30.0) # sweep from the LE
-
 # comp.add_output('Wp', val=2.26) # weight is in Newtons
 # comp.add_output('Wc', val=0.) # Crew weight, none
 # comp.add_output('mb', val = 0.48) # mass of the battery
@@ -45,47 +36,63 @@ comp.add_output('sweep', val = 30.0) # sweep from the LE
 # comp.add_output('AR', val = 6.998) # this is the taper ratio
 # comp.add_output('sweep', val = 30.0) # sweep from the LE
 
+comp.add_output('Wp', val=1.7) # weight is in kg 
+comp.add_output('Wc', val=0.) # Crew weight, none
+comp.add_output('mb', val = 0.48) # mass of the battery
+comp.add_output('V_max', val= 28.7)
+comp.add_output('W_S', val = 16.0) # wing loading 16 kg/m**2 
+comp.add_output('lamda', val = 0.4) # this is the taper ratio
+# comp.add_output('AR', val = 6.998) # this is the taper ratio
+comp.add_output('AR', val = 10.) # this is the taper ratio
+comp.add_output('sweep', val = 35.0) # sweep from the LE
+comp.add_output('num_of_WB', val = 10) # number of whirlybirds in a fleet for a day
 
-# this is for the full sized vehicle and the optimized version
-comp.add_output('W_motor', val = 0.06)
-comp.add_output('Xcg_motor', val = .4878)
-comp.add_output('W_prop', val =0.006)
-comp.add_output('Xcg_prop', val= .4878)
-comp.add_output('W_abox', val = 0.74)
-comp.add_output('Xcg_abox', val = 0.251)
-comp.add_output('W_langear', val = 0.9)
-comp.add_output('Xcg_langear', val = 0.351)
-comp.add_output('W_spar', val = 0.06)
-comp.add_output('Xcg_spar', val = 0.4120)
-comp.add_output('W_body', val = .35)
-comp.add_output('Xcg_body', val = 0.4151)
-comp.add_output('Xcg_payload', val = 0.251)
-
-# ' this next one is for a small vehicle'
-# comp.add_output('W_motor', val = 0.6)
+# 'this is for the full sized vehicle and the optimized version'
+# comp.add_output('W_motor', val = 0.06)
 # comp.add_output('Xcg_motor', val = .4878)
 # comp.add_output('W_prop', val =0.006)
 # comp.add_output('Xcg_prop', val= .4878)
 # comp.add_output('W_abox', val = 0.74)
-# comp.add_output('Xcg_abox', val = 0.4151)
+# comp.add_output('Xcg_abox', val = 0.251)
 # comp.add_output('W_langear', val = 0.9)
-# comp.add_output('Xcg_langear', val = 0.4151)
+# comp.add_output('Xcg_langear', val = 0.351)
 # comp.add_output('W_spar', val = 0.06)
-# comp.add_output('Xcg_spat', val = 0.4120)
+# comp.add_output('Xcg_spar', val = 0.4120)
 # comp.add_output('W_body', val = .35)
 # comp.add_output('Xcg_body', val = 0.4151)
-# comp.add_output('Xcg_payload', val = 0.4151)
+# comp.add_output('Xcg_payload', val = 0.251)
+
+' this next one is for a small vehicle'
+comp.add_output('W_motor', val = 0.06)
+comp.add_output('Xcg_motor', val = .2092)
+comp.add_output('W_prop', val =0.006)
+comp.add_output('Xcg_prop', val= .2091)
+comp.add_output('W_abox', val = 0.74)
+comp.add_output('Xcg_abox', val = 0.2513)
+comp.add_output('W_langear', val = 0.9)
+comp.add_output('Xcg_langear', val = 0.23)
+comp.add_output('W_spar', val = 0.06)
+comp.add_output('Xcg_spar', val = 0.25)
+comp.add_output('W_body', val = .35)
+comp.add_output('Xcg_body', val = 0.24)
+comp.add_output('Xcg_payload', val = 0.24)
 
 # This is for the Wing Xcg
-comp.add_output('xcg_y', val = 0.395)
+# comp.add_output('xcg_y', val = 0.395)
+# comp.add_output('xcg_y', val = 0.395)
+comp.add_output('xcg_y', val = 0.1913)
+# 
+# 
 
 # for the Total W Xcg
 comp.add_output('mass_wing', val = 0.447)
-comp.add_output('mass_allminuswing', val =4.916)
+# comp.add_output('mass_allminuswing', val =4.916)
+comp.add_output('mass_allminuswing', val =3.71) 
 
 # This is for the Wing's X ac
 
-comp.add_output('xac_y', val = .4286)
+# comp.add_output('xac_y', val = .4286)
+comp.add_output('xac_y', val = .2143)
 
 
 group.add_subsystem('ivc', comp)
@@ -151,6 +158,17 @@ group.add_subsystem('wxac', comp)
 
 group.connect('ivc.sweep','wxac.sweep')
 group.connect('ivc.xac_y','wxac.xac_y')
+# Lift Curve Slope Comp
+comp = LiftCurveInf()
+group.add_subsystem('lfc_inf', comp)
+
+group.connect('ivc.sweep','lfc_inf.sweep')
+
+
+comp = LiftCurveComp()
+group.add_subsystem('lcs',comp)
+
+
 
 # Neutral Point
 
@@ -188,15 +206,15 @@ group.connect('mac.C_bar','sm.C_bar')
 
 
 
-# Lift Curve Slope Comp
-comp = LiftCurveInf()
-group.add_subsystem('lfc_inf', comp)
+# # Lift Curve Slope Comp
+# comp = LiftCurveInf()
+# group.add_subsystem('lfc_inf', comp)
 
-group.connect('ivc.sweep','lfc_inf.sweep')
+# group.connect('ivc.sweep','lfc_inf.sweep')
 
 
-comp = LiftCurveComp()
-group.add_subsystem('lcs',comp)
+# comp = LiftCurveComp()
+# group.add_subsystem('lcs',comp)
 
 group.connect('ws.b','lcs.b')
 group.connect('s.S','lcs.S')
@@ -243,31 +261,47 @@ group.connect('s.S','rc.S')
 
 
 
-# Drag model
+# # Drag model
 
-comp = DragGroup()
-group.add_subsystem('drag_g', comp)
+# comp = DragGroup()
+# group.add_subsystem('drag_g', comp)
 
-group.connect('ivc.sweep','drag_g.sweep')
-group.connect('s.S','drag_g.S')
-group.connect('ws.b','drag_g.b') # connects wing span output b to drag group's b
-# group.connect('ivc.V_max','drag_g.V')
-group.connect('mac.C_bar', 'drag_g.C_bar')
+# group.connect('ivc.sweep','drag_g.sweep')
+# group.connect('s.S','drag_g.S')
+# group.connect('ws.b','drag_g.b') # connects wing span output b to drag group's b
+# # group.connect('ivc.V_max','drag_g.V')
+# group.connect('mac.C_bar', 'drag_g.C_bar')
 
 
 
 group.nonlinear_solver = NonlinearBlockGS(iprint=2, maxiter=20)
 
+group.linear_solver = LinearBlockGS(iprint = 2, maxiter=100)
+
+
 prob.model = group
+
+prob.model.add_subsystem('objective', 
+    ExecComp('obj = U_P', obj = 0), 
+        promotes=['*'])
+prob.model.connect('cer_g.U_P', 'U_P')
+prob.model.add_objective('obj')
+
+prob.driver = ScipyOptimizeDriver()
+prob.driver.options['optimizer'] = 'SLSQP'
+
+
+
 prob.setup()
 prob.run_model()
-
+# prob.run_driver()
 prob.model.list_outputs()
+
 
 # print(prob['gw.W0'])
 # print(prob['gw.We/W0'])
 # print(prob['r.R'])
-prob.check_partials(compact_print=True)
+# prob.check_partials(compact_print=True)
 
 # TO RUN: 'python run.py'
 # TO VISUALIZE: 'openmdao view_model run.py'

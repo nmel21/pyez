@@ -27,6 +27,7 @@ prob = Problem()
 group = Group()
 
 comp = IndepVarComp()
+' this is for the bigger whirlybird'
 # comp.add_output('Wp', val=2.26) # weight is in Newtons
 # comp.add_output('Wc', val=0.) # Crew weight, none
 # comp.add_output('mb', val = 0.48) # mass of the battery
@@ -35,12 +36,12 @@ comp = IndepVarComp()
 # comp.add_output('lamda', val = 0.4) # this is the taper ratio
 # comp.add_output('AR', val = 6.998) # this is the taper ratio
 # comp.add_output('sweep', val = 30.0) # sweep from the LE
-
+'this is one is for the smaller whirlybird'
 comp.add_output('Wp', val=1.7) # weight is in kg 
 comp.add_output('Wc', val=0.) # Crew weight, none
 comp.add_output('mb', val = 0.48) # mass of the battery
 comp.add_output('V_max', val= 28.7)
-comp.add_output('W_S', val = 16.0) # wing loading 16 kg/m**2 
+comp.add_output('W_S', val = 10.0) # wing loading 16 kg/m**2 
 comp.add_output('lamda', val = 0.4) # this is the taper ratio
 # comp.add_output('AR', val = 6.998) # this is the taper ratio
 comp.add_output('AR', val = 10.) # this is the taper ratio
